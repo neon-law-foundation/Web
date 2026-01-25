@@ -32,8 +32,12 @@ jobs:
           cd /tmp/toucan
           swift build -c release
           mkdir -p ~/.local/bin
-          cp .build/release/toucan ~/.local/bin/toucan
-          chmod +x ~/.local/bin/toucan
+          cp .build/release/toucan ~/.local/bin/
+          cp .build/release/toucan-generate ~/.local/bin/
+          cp .build/release/toucan-serve ~/.local/bin/
+          cp .build/release/toucan-init ~/.local/bin/
+          cp .build/release/toucan-watch ~/.local/bin/
+          chmod +x ~/.local/bin/toucan*
 
       - name: Add Toucan to PATH
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
