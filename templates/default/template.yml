@@ -1,0 +1,15 @@
+name: "NLF Template"
+description: "Template for Neon Law Foundation website"
+version: "1.0.0"
+generatorVersion:
+    value: "1.0.0-rc.1"
+authors:
+    - name: "Neon Law Foundation"
+      url: "https://www.neonlaw.org/"
+license:
+    name: "MIT license"
+    url: "https://github.com/neon-law-foundation/Web"
+tags:
+    - "neonlaw"
+    - "legal"
+    - "nonprofit"

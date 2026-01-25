@@ -1,0 +1,11 @@
+targets:
+    - name: dev
+      default: true
+
+    - name: live
+      output: docs
+      url: "https://www.neonlaw.org/"
+
+    - name: github-pages
+      output: /tmp/output
+      url: "https://neon-law-foundation.github.io/Web/"
