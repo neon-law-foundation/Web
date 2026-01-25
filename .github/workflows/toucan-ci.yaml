@@ -26,15 +26,7 @@ jobs:
         with:
           toolchain: "6.0"
 
-      - name: Cache Toucan binary
-        id: cache-toucan
-        uses: actions/cache@v4
-        with:
-          path: ~/.local/bin/toucan
-          key: toucan-${{ runner.os }}-v2
-
       - name: Install Toucan
-        if: steps.cache-toucan.outputs.cache-hit != 'true'
         run: |
           git clone --depth 1 https://github.com/toucansites/toucan.git /tmp/toucan
           cd /tmp/toucan
