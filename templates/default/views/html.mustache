@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html {{#site.language}}lang="{{.}}"{{/site.language}}>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{page.title}} - {{site.name}}</title>
+    <meta name="description" content="{{page.description}}">
+    <meta name="keywords" content="access to justice, open source software, legal technology, Swift programming, Sagebrush Standards">
+    <meta name="author" content="Neon Law Foundation">
+
+    <meta property="og:url" content="{{page.permalink}}">
+    <meta property="og:title" content="{{page.title}} - {{site.name}}">
+    <meta property="og:description" content="{{page.description}}">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{page.title}} - {{site.name}}">
+    <meta name="twitter:description" content="{{page.description}}">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    {{> partials.header}}
+
+    <main>
+    {{$main}}{{/main}}
+    </main>
+
+    {{> partials.footer}}
+</body>
+</html>

@@ -1,0 +1,6 @@
+name: "Neon Law Foundation"
+language: "en-US"
+description: "Non-profit organization increasing access to justice with open source software"
+navigation:
+    - label: "Home"
+      url: "/"
