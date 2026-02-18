@@ -11,6 +11,10 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/hummingbird-project/hummingbird.git", from: "2.0.0"),
+        .package(
+            url: "https://github.com/hummingbird-project/hummingbird-lambda.git",
+            from: "2.0.0"
+        ),
         .package(url: "https://github.com/sliemeobn/elementary.git", from: "0.3.0"),
     ],
     targets: [
@@ -18,6 +22,7 @@ let package = Package(
             name: "App",
             dependencies: [
                 .product(name: "Hummingbird", package: "hummingbird"),
+                .product(name: "HummingbirdLambda", package: "hummingbird-lambda"),
                 .product(name: "Elementary", package: "elementary"),
             ]
         ),
