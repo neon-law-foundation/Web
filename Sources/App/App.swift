@@ -1,13 +1,12 @@
+import AWSLambdaEvents
 import Foundation
 import Hummingbird
 import HummingbirdLambda
 
 @main
-struct App: APIGatewayV2LambdaFunction {
-    init(context: LambdaInitializationContext) async throws {}
-
-    func buildRouter() -> Router<LambdaRequestContext<APIGatewayV2Request>> {
-        let router = Router(context: LambdaRequestContext<APIGatewayV2Request>.self)
+struct App {
+    static func main() async throws {
+        let router = Router(context: BasicLambdaRequestContext<APIGatewayV2Request>.self)
 
         let publicPath =
             ProcessInfo.processInfo.environment["PUBLIC_DIR"]
@@ -33,6 +32,7 @@ struct App: APIGatewayV2LambdaFunction {
             }
         }
 
-        return router
+        let lambda = APIGatewayV2LambdaFunction(router: router)
+        try await lambda.runService()
     }
 }

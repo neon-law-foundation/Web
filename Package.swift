@@ -15,6 +15,7 @@ let package = Package(
             url: "https://github.com/hummingbird-project/hummingbird-lambda.git",
             from: "2.0.0"
         ),
+        .package(url: "https://github.com/awslabs/swift-aws-lambda-events.git", from: "1.0.0"),
         .package(url: "https://github.com/sliemeobn/elementary.git", from: "0.3.0"),
     ],
     targets: [
@@ -23,6 +24,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Hummingbird", package: "hummingbird"),
                 .product(name: "HummingbirdLambda", package: "hummingbird-lambda"),
+                .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-events"),
                 .product(name: "Elementary", package: "elementary"),
             ]
         ),
