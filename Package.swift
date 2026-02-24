@@ -1,10 +1,10 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.0
 import PackageDescription
 
 let package = Package(
     name: "NLFWeb",
     platforms: [
-        .macOS(.v14)
+        .macOS(.v15)
     ],
     products: [
         .executable(name: "App", targets: ["App"])
@@ -17,6 +17,11 @@ let package = Package(
         ),
         .package(url: "https://github.com/awslabs/swift-aws-lambda-events.git", from: "1.0.0"),
         .package(url: "https://github.com/sliemeobn/elementary.git", from: "0.3.0"),
+        .package(
+            url: "https://github.com/neon-law-foundation/SagebrushStandards.git",
+            branch: "main"
+        ),
+        .package(url: "https://github.com/apple/swift-configuration.git", from: "1.0.0"),
     ],
     targets: [
         .executableTarget(
@@ -26,6 +31,8 @@ let package = Package(
                 .product(name: "HummingbirdLambda", package: "hummingbird-lambda"),
                 .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-events"),
                 .product(name: "Elementary", package: "elementary"),
+                .product(name: "SagebrushDAL", package: "SagebrushStandards"),
+                .product(name: "Configuration", package: "swift-configuration"),
             ]
         ),
         .testTarget(
