@@ -5,7 +5,7 @@ import Hummingbird
 import HummingbirdLambda
 
 let config = ConfigReader(provider: EnvironmentVariablesProvider())
-let env = config.string(forKey: "env", default: "local")
+let env = config.string(forKey: "env", default: "local").lowercased()
 
 let publicPath =
     ProcessInfo.processInfo.environment["PUBLIC_DIR"]
