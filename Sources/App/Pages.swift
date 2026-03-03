@@ -53,7 +53,7 @@ struct MainLayout<Body: HTML>: HTMLDocument {
 }
 
 struct HomePage: HTML {
-    var content: some HTML {
+    var body: some HTML {
         header(.class("bg-white shadow-sm")) {
             div(.class("container mx-auto px-6 py-6")) {
                 div(.class("flex items-center gap-4")) {
