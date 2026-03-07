@@ -9,8 +9,32 @@ This is a Swift-based web application that serves the Neon Law Foundation
 website. It uses:
 
 - **Hummingbird** - Modern Swift web framework
+- **HummingbirdLambda** - AWS Lambda adapter (API Gateway v2)
 - **Elementary** - Type-safe HTML rendering in Swift
-- **Tailwind CSS** - Utility-first CSS framework (via CDN)
+- **Tailwind CSS** - Utility-first CSS framework (via CDN in local/staging)
+
+## Deployment
+
+This app is deployed as an **AWS Lambda function** behind API Gateway v2.
+
+- **Runtime**: `provided.al2023` (Lambda custom runtime)
+- **Architecture**: `arm64` (Graviton)
+- **Handler**: `bootstrap`
+
+CodeBuild compiles the Swift binary targeting Linux ARM64, renames it
+`bootstrap`, zips it, and calls `aws lambda update-function-code`. The
+`--static-swift-stdlib` flag embeds the Swift standard library into the binary
+so no Swift runtime is needed in the Lambda environment.
+
+The `ENV` environment variable controls the mode:
+
+- `production` / `staging` — runs as `APIGatewayV2LambdaFunction`
+- anything else (default: `local`) — runs as a local Hummingbird server on
+  port 8000
+
+Infrastructure (Lambda function, API Gateway, CodeBuild project, IAM roles)
+is managed in `Sagebrush/AWS`. See that repo's README for the pending setup
+plan.
 
 ## Claude Code Development Setup
 
@@ -37,8 +61,8 @@ This project is part of the [Trifecta](https://github.com/neon-law-foundation/Tr
 
 ## Requirements
 
-- Swift 5.10+
-- macOS 14+
+- Swift 6.0+
+- macOS 15+
 
 ## Running the Application
 
@@ -49,7 +73,7 @@ swift build
 # Run the application
 swift run App
 
-# The server will start on http://localhost:8080/
+# The server will start on http://localhost:8000/
 ```
 
 ## Development
