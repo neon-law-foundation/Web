@@ -19,7 +19,7 @@ let package = Package(
         .package(url: "https://github.com/sliemeobn/elementary.git", from: "0.3.0"),
         .package(
             url: "https://github.com/neon-law-foundation/Harness.git",
-            branch: "main"
+            branch: "feature/dry-and-rename-flow-alignment"
         ),
         .package(url: "https://github.com/apple/swift-configuration.git", from: "1.0.0"),
         .package(
@@ -34,14 +34,6 @@ let package = Package(
             url: "https://github.com/swift-server/swift-openapi-hummingbird.git",
             from: "2.0.0"
         ),
-        .package(
-            url: "https://github.com/vapor/fluent-sqlite-driver.git",
-            from: "4.8.1"
-        ),
-        .package(
-            url: "https://github.com/vapor/fluent-postgres-driver.git",
-            from: "2.12.0"
-        ),
     ],
     targets: [
         .executableTarget(
@@ -52,11 +44,11 @@ let package = Package(
                 .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-events"),
                 .product(name: "Elementary", package: "elementary"),
                 .product(name: "HarnessDAL", package: "Harness"),
+                .product(name: "HarnessElementary", package: "Harness"),
+                .product(name: "HarnessDatabaseService", package: "Harness"),
                 .product(name: "Configuration", package: "swift-configuration"),
                 .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
                 .product(name: "OpenAPIHummingbird", package: "swift-openapi-hummingbird"),
-                .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
-                .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
             ],
             plugins: [
                 .plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")
@@ -67,7 +59,6 @@ let package = Package(
             dependencies: [
                 .byName(name: "App"),
                 .product(name: "HummingbirdTesting", package: "hummingbird"),
-                .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
                 .product(name: "HarnessDAL", package: "Harness"),
             ]
         ),

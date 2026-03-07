@@ -1,6 +1,9 @@
 import Elementary
+import HarnessElementary
+import Hummingbird
 
 extension MainLayout: Sendable where Body: Sendable {}
+extension MainLayout: ResponseGenerator {}
 
 struct MainLayout<Body: HTML>: HTMLDocument {
     var title: String
