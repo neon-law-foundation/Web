@@ -130,3 +130,5 @@ This project is licensed under the **GNU Affero General Public License v3.0
 See the [LICENSE](LICENSE) file for full details.
 
 © 2026 Neon Law Foundation.
+
+All rights reserved.
