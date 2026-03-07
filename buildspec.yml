@@ -1,24 +1,48 @@
-# AWS CodeBuild buildspec for NLF Web static site
-# Environment variables expected:
-# - S3_BUCKET: Target S3 bucket for built static assets
-# - CLOUDFRONT_DISTRIBUTION_ID: CloudFront distribution ID to invalidate
+# AWS CodeBuild buildspec for NLF Web Lambda deployment
+#
+# ASSUMPTIONS - the CodeBuild project in Sagebrush/AWS must be configured with:
+#
+#   Build environment:
+#     Image:        aws/codebuild/amazonlinux2-aarch64-standard:3.0
+#     Architecture: ARM_CONTAINER (arm64 / Graviton)
+#     Swift:        pre-installed in the above image - no install phase needed
+#
+#   Environment variables (set in CodeBuildStack CloudFormation parameters):
+#     LAMBDA_FUNCTION_NAME  - name of the Lambda function to update
+#
+#   IAM permissions on the CodeBuild service role:
+#     lambda:UpdateFunctionCode  - to push the new zip to Lambda
+#     lambda:GetFunction         - to verify the update succeeded
+#
+# LAMBDA FUNCTION - must be configured in APILambdaStack with:
+#     Runtime:      provided.al2023
+#     Architecture: arm64
+#     Handler:      bootstrap
+#
+# WHY --static-swift-stdlib:
+#   The Lambda execution environment (Amazon Linux 2023) does not have Swift
+#   installed. This flag statically links the Swift standard library into the
+#   binary so it has no external Swift dependencies at runtime.
+#
+# WHY the binary is renamed to "bootstrap":
+#   Lambda custom runtimes (provided.al2023) look for an executable named
+#   "bootstrap" in the root of the deployment zip. The Swift binary can be
+#   named anything during the build; it must be renamed before zipping.
 
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo "Installing Toucan static site generator..."
-      - curl -sL https://github.com/toucansites/toucan/releases/latest/download/toucan-linux-arm64.zip -o toucan.zip
-      - unzip -o toucan.zip && chmod +x toucan && mv toucan /usr/local/bin/toucan
-      - toucan --version
-
   build:
     commands:
-      - echo "Generating static site..."
-      - toucan generate
-      - echo "Syncing to S3..."
-      - aws s3 sync ./Output s3://$S3_BUCKET --delete
-      - echo "Invalidating CloudFront cache..."
-      - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
-      - echo "Deployment complete!"
+      - swift build -c release --product App --static-swift-stdlib
+      - cp .build/release/App bootstrap
+      - zip lambda.zip bootstrap
+
+  post_build:
+    commands:
+      - aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://lambda.zip
+      - aws lambda invoke
+          --function-name $MIGRATION_LAMBDA_FUNCTION_NAME
+          --invocation-type RequestResponse
+          --log-type Tail
+          /tmp/migration-result.json

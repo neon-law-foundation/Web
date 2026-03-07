@@ -1,0 +1,72 @@
+openapi: "3.1.0"
+info:
+  title: NLF API
+  version: 0.1.0
+paths:
+  /questions:
+    get:
+      operationId: listQuestions
+      summary: List all questions sorted by code
+      responses:
+        "200":
+          description: An array of questions sorted by code
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Question"
+components:
+  schemas:
+    Question:
+      type: object
+      required:
+        - id
+        - code
+        - prompt
+        - questionType
+      properties:
+        id:
+          type: integer
+          format: int32
+        code:
+          type: string
+        prompt:
+          type: string
+        questionType:
+          $ref: "#/components/schemas/QuestionType"
+        helpText:
+          type:
+            - string
+            - "null"
+        insertedAt:
+          type:
+            - string
+            - "null"
+          format: date-time
+        updatedAt:
+          type:
+            - string
+            - "null"
+          format: date-time
+    QuestionType:
+      type: string
+      enum:
+        - string
+        - text
+        - date
+        - datetime
+        - number
+        - yes_no
+        - radio
+        - select
+        - multi_select
+        - secret
+        - phone
+        - email
+        - ssn
+        - ein
+        - file
+        - person
+        - address
+        - org

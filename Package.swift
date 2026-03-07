@@ -22,6 +22,26 @@ let package = Package(
             branch: "main"
         ),
         .package(url: "https://github.com/apple/swift-configuration.git", from: "1.0.0"),
+        .package(
+            url: "https://github.com/apple/swift-openapi-generator.git",
+            from: "1.10.3"
+        ),
+        .package(
+            url: "https://github.com/apple/swift-openapi-runtime.git",
+            from: "1.9.0"
+        ),
+        .package(
+            url: "https://github.com/swift-server/swift-openapi-hummingbird.git",
+            from: "2.0.0"
+        ),
+        .package(
+            url: "https://github.com/vapor/fluent-sqlite-driver.git",
+            from: "4.8.1"
+        ),
+        .package(
+            url: "https://github.com/vapor/fluent-postgres-driver.git",
+            from: "2.12.0"
+        ),
     ],
     targets: [
         .executableTarget(
@@ -33,6 +53,13 @@ let package = Package(
                 .product(name: "Elementary", package: "elementary"),
                 .product(name: "HarnessDAL", package: "Harness"),
                 .product(name: "Configuration", package: "swift-configuration"),
+                .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
+                .product(name: "OpenAPIHummingbird", package: "swift-openapi-hummingbird"),
+                .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
+                .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
+            ],
+            plugins: [
+                .plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")
             ]
         ),
         .testTarget(
@@ -40,6 +67,8 @@ let package = Package(
             dependencies: [
                 .byName(name: "App"),
                 .product(name: "HummingbirdTesting", package: "hummingbird"),
+                .product(name: "FluentSQLiteDriver", package: "fluent-sqlite-driver"),
+                .product(name: "HarnessDAL", package: "Harness"),
             ]
         ),
     ]
