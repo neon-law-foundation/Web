@@ -1,5 +1,5 @@
 {
-  "originHash" : "5afdb01592d5d4f1ac832f62120c5fac963360b55808dc99e016bce7a099c5ad",
+  "originHash" : "2ac28e43b847914b0837bcee8a6ad4a627654f2cc19209540e5ae5409e15adc3",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -20,12 +20,30 @@
       }
     },
     {
+      "identity" : "console-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/console-kit.git",
+      "state" : {
+        "revision" : "742f624a998cba2a9e653d9b1e91ad3f3a5dff6b",
+        "version" : "4.15.2"
+      }
+    },
+    {
       "identity" : "elementary",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sliemeobn/elementary.git",
       "state" : {
         "revision" : "ca09461308fbd568a95523544d97119ba7aea2a1",
         "version" : "0.6.4"
+      }
+    },
+    {
+      "identity" : "fluent",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/fluent.git",
+      "state" : {
+        "revision" : "2fe9e36daf4bdb5edcf193e0d0806ba2074d2864",
+        "version" : "4.13.0"
       }
     },
     {
@@ -60,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/neon-law-foundation/Harness.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "f9516542bcaec4cf809cb31ec59c23007baa0cd1"
+        "branch" : "feature/dry-and-rename-flow-alignment",
+        "revision" : "36ccae23f8d8091976d450b1b0fc33b6e95b585a"
       }
     },
     {
@@ -80,6 +98,24 @@
       "state" : {
         "revision" : "2a4974805627c7816e1ee77525c7227b655399f4",
         "version" : "2.0.2"
+      }
+    },
+    {
+      "identity" : "jwt-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/jwt-kit.git",
+      "state" : {
+        "revision" : "b5f82fb9dc238f2fcac53d721a222513a152613c",
+        "version" : "5.3.0"
+      }
+    },
+    {
+      "identity" : "multipart-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/multipart-kit.git",
+      "state" : {
+        "revision" : "3498e60218e6003894ff95192d756e238c01f44e",
+        "version" : "4.7.1"
       }
     },
     {
@@ -107,6 +143,15 @@
       "state" : {
         "revision" : "ea1b42104a24cee93c9a9b2b2b8498598b3cfd81",
         "version" : "1.32.0"
+      }
+    },
+    {
+      "identity" : "routing-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/routing-kit.git",
+      "state" : {
+        "revision" : "1a10ccea61e4248effd23b6e814999ce7bdf0ee0",
+        "version" : "4.9.3"
       }
     },
     {
@@ -395,6 +440,24 @@
       "state" : {
         "revision" : "7c6ad0fc39d0763e0b699210e4124afd5041c5df",
         "version" : "1.6.4"
+      }
+    },
+    {
+      "identity" : "vapor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/vapor.git",
+      "state" : {
+        "revision" : "a8db2dbda8b3cdc8a61bd35128590bd296e85563",
+        "version" : "4.121.3"
+      }
+    },
+    {
+      "identity" : "websocket-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/websocket-kit.git",
+      "state" : {
+        "revision" : "8666c92dbbb3c8eefc8008c9c8dcf50bfd302167",
+        "version" : "2.16.1"
       }
     },
     {

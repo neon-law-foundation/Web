@@ -1,13 +1,10 @@
 import AWSLambdaEvents
 import Configuration
-import FluentKit
-import FluentPostgresDriver
-import FluentSQLiteDriver
 import Foundation
 import HarnessDAL
+import HarnessDatabaseService
 import Hummingbird
 import HummingbirdLambda
-import Logging
 import OpenAPIHummingbird
 import OpenAPIRuntime
 
@@ -23,40 +20,6 @@ let publicPath =
     .appendingPathComponent("Public")
     .path
 
-// MARK: - Database setup
-
-let databases = Databases(
-    threadPool: .singleton,
-    on: MultiThreadedEventLoopGroup.singleton
-)
-let dbLogger = Logger(label: "fluent")
-
-switch env {
-case "production", "staging":
-    let host = ProcessInfo.processInfo.environment["DATABASE_HOST"] ?? ""
-    let port = Int(ProcessInfo.processInfo.environment["DATABASE_PORT"] ?? "5432") ?? 5432
-    let name = ProcessInfo.processInfo.environment["DATABASE_NAME"] ?? ""
-    let username = ProcessInfo.processInfo.environment["DATABASE_USERNAME"] ?? ""
-    let password = ProcessInfo.processInfo.environment["DATABASE_PASSWORD"] ?? ""
-    try databases.use(
-        .postgres(url: "postgres://\(username):\(password)@\(host):\(port)/\(name)"),
-        as: .psql
-    )
-default:
-    databases.use(.sqlite(.file("harness.sqlite")), as: .sqlite)
-}
-
-// Register migrations so the migrator knows the schema, but do NOT run
-// autoMigrate. Migrations are executed by the dedicated MigrationLambda
-// after each deployment.
-let migrations = Migrations()
-for migration in HarnessDALConfiguration.migrations {
-    migrations.add(migration)
-}
-
-let dbID: DatabaseID = (env == "production" || env == "staging") ? .psql : .sqlite
-let db = databases.database(dbID, logger: dbLogger, on: MultiThreadedEventLoopGroup.singleton.next())!
-
 // MARK: - Router helpers
 
 let pageTitle = "Neon Law Foundation | Increasing Access to Justice with Open Source Software"
@@ -65,6 +28,14 @@ let pageTitle = "Neon Law Foundation | Increasing Access to Justice with Open So
 
 switch env {
 case "production", "staging":
+    let host = config.string(forKey: "database.host", default: "")
+    let port = config.string(forKey: "database.port", default: "5432")
+    let name = config.string(forKey: "database.name", default: "")
+    let username = config.string(forKey: "database.username", default: "")
+    let password = config.string(forKey: "database.password", default: "")
+    let databaseURL = "postgres://\(username):\(password)@\(host):\(port)/\(name)"
+    let databaseService = try DatabaseService(databaseURL: databaseURL)
+    let db = try await databaseService.db
     let router = Router(context: BasicLambdaRequestContext<APIGatewayV2Request>.self)
     router.middlewares.add(FileMiddleware(publicPath, searchForIndexHtml: false))
     router.get("") { _, _ in
@@ -74,6 +45,9 @@ case "production", "staging":
     let lambda = APIGatewayV2LambdaFunction(router: router)
     try await lambda.runService()
 default:
+    let databaseService = DatabaseService(configuration: .file("harness.sqlite"))
+    try await databaseService.migrate()
+    let db = try await databaseService.db
     let router = Router()
     router.middlewares.add(FileMiddleware(publicPath, searchForIndexHtml: false))
     router.get("") { _, _ in
